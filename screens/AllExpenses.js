@@ -1,8 +1,9 @@
 import {View, Text, StyleSheet} from 'react-native';
+import ExpensesOutput from '../components/ExpensesOutput.js/ExpensesOutput';
 
 function AllExpencies() {
   return <View style={styles.rootContainer}>
-    <Text>AllExpencies</Text>
+    <ExpensesOutput expensesPeriod="Last 7 days" />
   </View>
 };
 
