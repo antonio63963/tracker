@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
+import { Colors } from "../../constants/styles";
 
 const dummy = [
   {
@@ -38,7 +39,7 @@ const dummy = [
 function ExpensesOutput({ expenses, expensesPeriod }) {
   const expensesSum = dummy.reduce((acc, item) => acc + item.amount, 0);
   return (
-    <View>
+    <View style={styles.container}>
       <ExpensesSummary sum={expensesSum} periodName={expensesPeriod} />
       <ExpensesList expenses={dummy} />
     </View>
@@ -46,3 +47,13 @@ function ExpensesOutput({ expenses, expensesPeriod }) {
 }
 
 export default ExpensesOutput;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 0,
+    backgroundColor: Colors.primary700
+  }
+})

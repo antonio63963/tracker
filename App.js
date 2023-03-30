@@ -10,6 +10,8 @@ import { AllExpenses, ManageExpenses, RecentExpenses } from "./screens";
 
 import { Colors } from "./constants/styles";
 
+import IconButton from "./components/UI/IconButton";
+
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
@@ -17,12 +19,20 @@ function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
       initialRouteName="AllExpenses"
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: Colors.primary500 },
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: Colors.primary500 },
         tabBarActiveTintColor: Colors.accent500,
-      }}
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            iconName="add"
+            color={tintColor}
+            size={24}
+            onPress={() => navigation.navigate("ManageExpenses")}
+          />
+        ),
+      })}
     >
       <BottomTabs.Screen
         name="AllExpenses"
@@ -35,13 +45,17 @@ function ExpensesOverview() {
           ),
         }}
       />
-      <BottomTabs.Screen name="RecentExpenses" component={RecentExpenses} options={{
+      <BottomTabs.Screen
+        name="RecentExpenses"
+        component={RecentExpenses}
+        options={{
           title: "Recent Expenses",
           tabBarLabel: "Recent",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="hourglass" color={color} size={size} />
           ),
-        }} />
+        }}
+      />
     </BottomTabs.Navigator>
   );
 }
@@ -65,10 +79,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: "#fff",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
 });
