@@ -4,11 +4,11 @@ import { Colors } from "../../constants/styles";
 
 import { getFormatedDate } from "../../utils/date";
 
-function ExpenseItem({ description, date, amount }) {
+function ExpenseItem({ id, description, date, amount }) {
   const navigation = useNavigation();
 
   function onExpense() {
-    navigation.navigate('ManageExpenses')
+    navigation.navigate("ManageExpenses", { id });
   }
 
   return (
