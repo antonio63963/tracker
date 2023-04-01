@@ -1,16 +1,25 @@
-import {View, Text, StyleSheet} from 'react-native';
-import ExpensesOutput from '../components/ExpensesOutput.js/ExpensesOutput';
+import { View, Text, StyleSheet } from "react-native";
+import { useContext } from "react";
+import ExpensesOutput from "../components/ExpensesOutput.js/ExpensesOutput";
+
+import { ExpensesContext } from "../store/expenses-context";
 
 function AllExpencies() {
-  return <View style={styles.rootContainer}>
-    <ExpensesOutput expensesPeriod="Last 7 days" />
-  </View>
-};
+  const expensesContext = useContext(ExpensesContext);
+  return (
+    <View style={styles.rootContainer}>
+      <ExpensesOutput
+        expenses={expensesContext.expenses}
+        expensesPeriod="Last 7 days"
+      />
+    </View>
+  );
+}
 
 export default AllExpencies;
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-  }
-})
+  },
+});
