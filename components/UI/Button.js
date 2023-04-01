@@ -4,7 +4,7 @@ import { Colors } from "../../constants/styles";
 function Button({ children, onPress, isFlat, style }) {
   return (
     <View style={style}>
-      <Pressable onPress={onPress}>
+      <Pressable onPress={onPress} style={({pressed}) => pressed && styles.pressed}>
         <View style={[styles.button, isFlat && styles.flat]}>
           <Text style={[styles.buttonText, isFlat && styles.flatText]}>{children}</Text>
         </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: .75,
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primary400,
     borderRadius: 4
   }
 });
