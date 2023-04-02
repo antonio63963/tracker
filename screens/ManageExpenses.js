@@ -8,6 +8,7 @@ import { Colors } from "../constants/styles";
 
 import IconButton from "../components/UI/IconButton";
 import Button from "../components/UI/Button";
+import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 
 function ManageExpencies({ route, navigation }) {
   const expensesContext = useContext(ExpensesContext);
@@ -43,6 +44,7 @@ function ManageExpencies({ route, navigation }) {
 
   return (
     <View style={styles.rootContainer}>
+      <ExpenseForm />
       <View style={styles.buttonsRow}>
         <Button isFlat={true} onPress={onCancel} style={styles.button}>
           Cancel
