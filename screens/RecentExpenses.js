@@ -16,7 +16,7 @@ function RecentExpencies() {
 
   return (
     <View style={styles.rootContainer}>
-      <ExpensesOutput expenses={recentExpenses} expensesPeriod="Total" />
+      <ExpensesOutput expenses={recentExpenses} expensesPeriod="Total" fallbackText="No any expenses for this period!" />
     </View>
   );
 }

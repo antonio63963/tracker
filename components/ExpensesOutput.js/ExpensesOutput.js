@@ -6,12 +6,16 @@ import { Colors } from "../../constants/styles";
 
 import { ExpensesContext } from "../../store/expenses-context";
 
-function ExpensesOutput({ expenses, expensesPeriod }) {
+function ExpensesOutput({ expenses, expensesPeriod, fallbackText }) {
   const expensesSum = expenses.reduce((acc, item) => acc + item.amount, 0);
+  let content = <Text style={styles.fallbackText}>{fallbackText}</Text>;
+  if (expenses.length) {
+    content = <ExpensesList expenses={expenses} />;
+  }
   return (
     <View style={styles.container}>
       <ExpensesSummary sum={expensesSum} periodName={expensesPeriod} />
-      <ExpensesList expenses={expenses} />
+      {content}
     </View>
   );
 }
@@ -25,5 +29,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 0,
     backgroundColor: Colors.primary700,
+  },
+  fallbackText: {
+    marginTop: 50,
+    color: "white",
+    fontSize: 32,
+    textAlign: 'center'
   },
 });

@@ -11,6 +11,7 @@ function AllExpencies() {
       <ExpensesOutput
         expenses={expensesContext.expenses}
         expensesPeriod="Last 7 days"
+        fallbackText="No any expenses yet..."
       />
     </View>
   );
