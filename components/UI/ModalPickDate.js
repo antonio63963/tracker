@@ -3,12 +3,11 @@ import {
   View,
   Text,
   Modal,
-  TouchableOpacity,
   StyleSheet,
   Pressable,
 } from "react-native";
 import DatePicker from "react-native-modern-datepicker";
-import { getToday, getFormatedDate } from "react-native-modern-datepicker";
+import { getFormatedDate,  } from "react-native-modern-datepicker";
 
 import { Colors } from "../../constants/styles";
 
@@ -26,7 +25,7 @@ function ModalPickDate({
 }) {
   useLayoutEffect(() => {
     const initialDate = getFormatedDate(
-      startDate.setDate(startDate.getDate()),
+      startDate.getTime(),
       "YYYY/MM/DD"
     );
     onDateChange(initialDate);

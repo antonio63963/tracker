@@ -6,8 +6,9 @@ import { Colors } from "../../constants/styles";
 import Input from "./Input";
 import ModalPickDate from "../UI/ModalPickDate";
 import IconButton from "../UI/IconButton";
+import Button from "../UI/Button";
 
-function ExpenseForm() {
+function ExpenseForm({ submitButtonLable, onCancel, onSubmit }) {
   const [inputsValues, setInputsValues] = useState({
     amount: "",
     description: "",
@@ -21,6 +22,15 @@ function ExpenseForm() {
       ...currentData,
       [identifier]: enteredValue,
     }));
+  }
+
+  function onConfirm() {
+    const data = {
+      description: inputsValues.description,
+      date: new Date(inputsValues.date.replaceAll('/', '-')),
+      amount: +inputsValues.amount,
+    };
+    onSubmit(data);
   }
 
   return (
@@ -72,6 +82,14 @@ function ExpenseForm() {
         onDateChange={onInputChange.bind(this, "date")}
         onClose={() => setIsOpen(false)}
       />
+      <View style={styles.buttonsRow}>
+        <Button isFlat={true} onPress={onCancel} style={styles.button}>
+          Cancel
+        </Button>
+        <Button onPress={onConfirm} style={styles.button}>
+          {submitButtonLable}
+        </Button>
+      </View>
     </View>
   );
 }
@@ -104,5 +122,14 @@ const styles = StyleSheet.create({
   },
   dateButton: {
     paddingBottom: 10,
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
+  },
+  buttonsRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

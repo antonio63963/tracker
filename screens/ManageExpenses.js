@@ -21,7 +21,7 @@ function ManageExpencies({ route, navigation }) {
   function onCancel() {
     navigation.goBack();
   }
-  function onConfirm() {
+  function onSubmit(expenseData) {
     if (itemId) {
       expensesContext.updateExpense(itemId, {
         description: "Test!!!",
@@ -29,11 +29,7 @@ function ManageExpencies({ route, navigation }) {
         date: new Date("2023-03-30"),
       });
     } else {
-      expensesContext.addExpense({
-        description: "Test",
-        amount: 89.99,
-        date: new Date("2023-03-30"),
-      });
+      expensesContext.addExpense(expenseData);
     }
     navigation.goBack();
   }
@@ -44,15 +40,11 @@ function ManageExpencies({ route, navigation }) {
 
   return (
     <View style={styles.rootContainer}>
-      <ExpenseForm />
-      <View style={styles.buttonsRow}>
-        <Button isFlat={true} onPress={onCancel} style={styles.button}>
-          Cancel
-        </Button>
-        <Button onPress={onConfirm} style={styles.button}>
-          {!!itemId ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        onCancel={onCancel}
+        onSubmit={onSubmit}
+        submitButtonLable={!!itemId ? "Update" : "Add"}
+      />
       {!!itemId && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -79,15 +71,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopWidth: 2,
     borderColor: Colors.primary200,
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
-  },
-  buttonsRow: {
-    flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
   },
 });
