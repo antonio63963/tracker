@@ -3,13 +3,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "../../constants/styles";
 
-function IconButton({ onPress, iconName, size, color }) {
+function IconButton({ onPress, iconName, size, color, style }) {
   return (
     <View style={styles.rootContainer}>
       <Pressable
         onPress={onPress}
         android_ripple={{ color: Colors.primary50 }}
-        style={({ pressed }) => pressed && styles.pressed}
+        style={({ pressed }) => pressed ? [styles.pressed, style] : style}
       >
         <View style={styles.bottonContainer}>
           <Ionicons name={iconName} size={size} color={color} />
