@@ -1,5 +1,12 @@
 import { useLayoutEffect } from "react";
-import { View, Text, Modal, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import DatePicker from "react-native-modern-datepicker";
 import { getToday, getFormatedDate } from "react-native-modern-datepicker";
 
@@ -27,35 +34,54 @@ function ModalPickDate({
 
   return (
     <>
-      <Modal animationType="slide" transparent={true} visible={isOpen}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={styles.topButtonRow}>
-              <IconButton
-                iconName="close"
-                color={Colors.primary700}
-                size={24}
-                onPress={onClose}
-                style={{ textAlign: "end" }}
-              />
-            </View>
-            <View style={styles.content}>
-              <DatePicker
-                mode="calendar"
-                selected={selectedDate}
-                onDateChange={onDateChange}
-              />
-            </View>
-            <View style={styles.topButtonRow}>
-              <Button style={[styles.button, {backgroundColor: Colors.error500}]}>
-                <Ionicons name="trash" size={24} color="white" />
-              </Button>
-              <Button style={[styles.button, {backgroundColor: Colors.primary500}]}>
-                <Ionicons name="save" size={24} color="white" />
-              </Button>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isOpen}
+        onRequestClose={onClose}
+      >
+        <Pressable style={{ flex: 1 }} onPress={onClose}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.topButtonRow}>
+                <IconButton
+                  iconName="close"
+                  color={Colors.primary700}
+                  size={24}
+                  onPress={onClose}
+                  style={{ textAlign: "end" }}
+                />
+              </View>
+              <View style={styles.content}>
+                <DatePicker
+                  mode="calendar"
+                  selected={selectedDate}
+                  onDateChange={onDateChange}
+                />
+              </View>
+              <View style={styles.topButtonRow}>
+                <Button
+                  style={[styles.button, { backgroundColor: Colors.error500 }]}
+                  onPress={() => {
+                    onDateChange("");
+                    onClose();
+                  }}
+                >
+                  <Ionicons name="trash" size={24} color="white" />
+                </Button>
+                <Button
+                  onPress={onClose}
+                  style={[
+                    styles.button,
+                    { backgroundColor: Colors.primary500 },
+                  ]}
+                >
+                  <Ionicons name="save" size={24} color="white" />
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
+        </Pressable>
       </Modal>
     </>
   );
@@ -82,7 +108,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   content: {
     width: "100%",
@@ -95,6 +121,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   button: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
