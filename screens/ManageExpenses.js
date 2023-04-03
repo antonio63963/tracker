@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useContext } from "react";
 
 import { ExpensesContext } from "../store/expenses-context";
@@ -8,7 +8,7 @@ import { Colors } from "../constants/styles";
 
 import IconButton from "../components/UI/IconButton";
 import Button from "../components/UI/Button";
-import ExpenseForm from '../components/ManageExpense/ExpenseForm';
+import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 
 function ManageExpencies({ route, navigation }) {
   const expensesContext = useContext(ExpensesContext);
@@ -73,8 +73,6 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     padding: 24,
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   deleteContainer: {
     marginTop: 16,
