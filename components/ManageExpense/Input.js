@@ -2,9 +2,10 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 
 import { Colors } from "../../constants/styles";
 
-function Input({ label, style, textInputConfig }) {
+function Input({ label, style, textInputConfig, isValid }) {
   const inputStyle = [
     styles.input,
+    !isValid && styles.errorInput,
     textInputConfig?.multiline && styles.multiline,
   ];
   return (
@@ -15,6 +16,7 @@ function Input({ label, style, textInputConfig }) {
         {...textInputConfig}
         placeholderTextColor={Colors.primary100}
       />
+      {!isValid && <Text style={styles.errorText}>*Check input value!</Text>}
     </View>
   );
 }
@@ -41,8 +43,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   multiline: {
-    marginBottom: 50,
     minHeight: 100,
     textAlignVertical: 'top'
   },
+  errorInput: {
+    borderColor: Colors.error500
+  },
+  errorText: {
+    color: Colors.error500,
+    fontSize: 11
+  }
 });

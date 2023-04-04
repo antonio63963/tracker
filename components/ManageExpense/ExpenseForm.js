@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Alert, StyleSheet } from "react-native";
 import { useState } from "react";
 
 import { Colors } from "../../constants/styles";
@@ -17,9 +17,9 @@ function ExpenseForm({
   defaultExpense,
 }) {
   const [inputsValues, setInputsValues] = useState({
-    amount: defaultExpense ? defaultExpense.amount.toString() : "",
-    description: defaultExpense ? defaultExpense.description : "",
-    date: defaultExpense ? getFormatedDate(defaultExpense.date) : "",
+    amount: {value: defaultExpense ? defaultExpense.amount.toString() : "", isValid: true},
+    description: {value: defaultExpense ? defaultExpense.description : "", isValid: true},
+    date: {value: defaultExpense ? getFormatedDate(defaultExpense.date) : "", isValid: true},
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -27,16 +27,32 @@ function ExpenseForm({
   function onInputChange(identifier, enteredValue) {
     setInputsValues((currentData) => ({
       ...currentData,
-      [identifier]: enteredValue,
+      [identifier]: {value: enteredValue, isValid: true},
     }));
   }
 
   function onConfirm() {
     const data = {
-      description: inputsValues.description,
-      date: new Date(getDateWhithDash(inputsValues.date)),
-      amount: +inputsValues.amount,
+      description: inputsValues.description.value.trim(),
+      date: new Date(getDateWhithDash(inputsValues.date.value)),
+      amount: +inputsValues.amount.value,
     };
+
+    const amountIsValid = !isNaN(data.amount) && data.amount > 0;
+    const dateIsValid = data.date.toDateString() !== 'Invalid Date';
+    const descriptionIsValid = data.description.length > 0;
+
+    if(!amountIsValid || !dateIsValid || !descriptionIsValid) {
+      // Alert.alert('Invalid input', 'Please check your input values!');
+      let stateInputsError= {...inputsValues};
+      stateInputsError.amount.isValid = amountIsValid;
+      stateInputsError.date.isValid = dateIsValid;
+      stateInputsError.description.isValid = descriptionIsValid;
+
+      setInputsValues(stateInputsError)
+     
+      return;
+    }
     onSubmit(data);
   }
 
@@ -45,23 +61,25 @@ function ExpenseForm({
       <Text style={styles.formTitle}>Your Expense</Text>
       <View style={styles.inputsRow}>
         <Input
+        isValid={inputsValues.amount.isValid}
           style={styles.inputInRow}
           label="Amount"
           textInputConfig={{
             autoFocus: true,
             keyboardType: "decimal-pad",
             onChangeText: onInputChange.bind(this, "amount"),
-            value: inputsValues.amount,
+            value: inputsValues.amount.value,
           }}
         />
         <View style={styles.dateInputRow}>
           <Input
+          isValid={inputsValues.date.isValid}
             style={styles.inputInRow}
             label="Date"
             textInputConfig={{
               placeholder: "YYYY-MM-DD",
               maxLength: 10,
-              value: inputsValues.date,
+              value: inputsValues.date.value,
               onChangeText: (inputData) => onInputChange("date", inputData),
             }}
           />
@@ -76,17 +94,18 @@ function ExpenseForm({
         </View>
       </View>
       <Input
+      isValid={inputsValues.description.isValid}
         label="Description"
         textInputConfig={{
           multiline: true,
           onChangeText: (inputData) => onInputChange("description", inputData),
-          value: inputsValues.description,
+          value: inputsValues.description.value,
         }}
       />
       <ModalPickDate
         startDate={defaultExpense ? defaultExpense.date : new Date()}
         isOpen={isOpen}
-        selectedDate={inputsValues.date}
+        selectedDate={inputsValues.date.value}
         onDateChange={onInputChange.bind(this, "date")}
         onClose={() => setIsOpen(false)}
       />
@@ -136,6 +155,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   buttonsRow: {
+    marginTop: 50,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
