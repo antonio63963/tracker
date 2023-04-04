@@ -1,7 +1,8 @@
-export function getDateFromDash(dateString) {
+export function getDateWhithDash(dateString) {
   return dateString.replaceAll('/', '-')
 }
 export function getFormatedDate(date) {
+  return date.toISOString().slice(0, 10);
   return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
 

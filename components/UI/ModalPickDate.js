@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import DatePicker from "react-native-modern-datepicker";
-import { getFormatedDate,  } from "react-native-modern-datepicker";
+import { getFormatedDate } from "react-native-modern-datepicker";
 
 import { Colors } from "../../constants/styles";
 

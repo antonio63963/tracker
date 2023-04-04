@@ -3,16 +3,23 @@ import { useState } from "react";
 
 import { Colors } from "../../constants/styles";
 
+import { getFormatedDate, getDateWhithDash } from "../../utils/date";
+
 import Input from "./Input";
 import ModalPickDate from "../UI/ModalPickDate";
 import IconButton from "../UI/IconButton";
 import Button from "../UI/Button";
 
-function ExpenseForm({ submitButtonLable, onCancel, onSubmit }) {
+function ExpenseForm({
+  submitButtonLable,
+  onCancel,
+  onSubmit,
+  defaultExpense,
+}) {
   const [inputsValues, setInputsValues] = useState({
-    amount: "",
-    description: "",
-    date: "",
+    amount: defaultExpense ? defaultExpense.amount.toString() : "",
+    description: defaultExpense ? defaultExpense.description : "",
+    date: defaultExpense ? getFormatedDate(defaultExpense.date) : "",
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +34,7 @@ function ExpenseForm({ submitButtonLable, onCancel, onSubmit }) {
   function onConfirm() {
     const data = {
       description: inputsValues.description,
-      date: new Date(inputsValues.date.replaceAll('/', '-')),
+      date: new Date(getDateWhithDash(inputsValues.date)),
       amount: +inputsValues.amount,
     };
     onSubmit(data);
@@ -73,10 +80,11 @@ function ExpenseForm({ submitButtonLable, onCancel, onSubmit }) {
         textInputConfig={{
           multiline: true,
           onChangeText: (inputData) => onInputChange("description", inputData),
+          value: inputsValues.description,
         }}
       />
       <ModalPickDate
-        startDate={new Date()}
+        startDate={defaultExpense ? defaultExpense.date : new Date()}
         isOpen={isOpen}
         selectedDate={inputsValues.date}
         onDateChange={onInputChange.bind(this, "date")}

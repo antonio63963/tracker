@@ -14,6 +14,10 @@ function ManageExpencies({ route, navigation }) {
   const expensesContext = useContext(ExpensesContext);
   const itemId = route.params?.id;
 
+  const selectedExpense = itemId ? expensesContext.expenses.find(
+    (expense) => expense.id === itemId
+  ) : null;
+
   function onDeleteExpense() {
     expensesContext.deleteExpense(itemId);
     navigation.goBack();
@@ -44,6 +48,7 @@ function ManageExpencies({ route, navigation }) {
         onCancel={onCancel}
         onSubmit={onSubmit}
         submitButtonLable={!!itemId ? "Update" : "Add"}
+        defaultExpense={selectedExpense}
       />
       {!!itemId && (
         <View style={styles.deleteContainer}>
