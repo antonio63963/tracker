@@ -4,10 +4,15 @@ import { useContext, useEffect, useState } from "react";
 import { fetchExpenses } from "../utils/http";
 
 import ExpensesOutput from "../components/ExpensesOutput.js/ExpensesOutput";
+import LoaderOverlay from "../components/UI/LoaderOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 import { getDateMinusDay } from "../utils/date";
 import { ExpensesContext } from "../store/expenses-context";
 
 function RecentExpencies() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
+
   const expensesContext = useContext(ExpensesContext);
 
   const today = new Date();
@@ -19,17 +24,25 @@ function RecentExpencies() {
   async function getExpenses() {
     try {
       const response = await fetchExpenses();
-      if (response) {
-        expensesContext.setExpenses(response);
-      }
+      expensesContext.setExpenses(response);
     } catch (err) {
-      console.log("ERROR: ", err);
+      console.log('ERROR:', err)
+      setError(err)
     }
+    setIsLoading(false);
   }
 
   useEffect(() => {
     getExpenses();
   }, []);
+
+  if(error) {
+    return <ErrorOverlay message={error.message} onClick={() => setError(null)}/>
+  }
+
+  if(isLoading) {
+    return <LoaderOverlay />
+  }
 
   return (
     <View style={styles.rootContainer}>
