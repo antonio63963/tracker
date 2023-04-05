@@ -18,7 +18,7 @@ const BottomTabs = createBottomTabNavigator();
 function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
-      initialRouteName="AllExpenses"
+      initialRouteName="RecentExpenses"
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: Colors.primary500 },
         headerTintColor: "white",
@@ -35,17 +35,6 @@ function ExpensesOverview() {
       })}
     >
       <BottomTabs.Screen
-        name="AllExpenses"
-        component={AllExpenses}
-        options={{
-          title: "All Expenses",
-          tabBarLabel: "All",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTabs.Screen
         name="RecentExpenses"
         component={RecentExpenses}
         options={{
@@ -53,6 +42,17 @@ function ExpensesOverview() {
           tabBarLabel: "Recent",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="hourglass" color={color} size={size} />
+          ),
+        }}
+      />
+      <BottomTabs.Screen
+        name="AllExpenses"
+        component={AllExpenses}
+        options={{
+          title: "All Expenses",
+          tabBarLabel: "All",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="calendar" color={color} size={size} />
           ),
         }}
       />
