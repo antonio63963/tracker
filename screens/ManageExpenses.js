@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { useContext } from "react";
 
 import { ExpensesContext } from "../store/expenses-context";
-import {storeExpense} from '../utils/http';
+import { storeExpense, updateExpense, deleteExpense } from "../utils/http";
 
 import { Colors } from "../constants/styles";
 
@@ -15,25 +15,25 @@ function ManageExpencies({ route, navigation }) {
   const expensesContext = useContext(ExpensesContext);
   const itemId = route.params?.id;
 
-  const selectedExpense = itemId ? expensesContext.expenses.find(
-    (expense) => expense.id === itemId
-  ) : null;
+  const selectedExpense = itemId
+    ? expensesContext.expenses.find((expense) => expense.id === itemId)
+    : null;
 
-  function onDeleteExpense() {
+  async function onDeleteExpense() {
+    await deleteExpense(itemId);
     expensesContext.deleteExpense(itemId);
     navigation.goBack();
   }
   function onCancel() {
     navigation.goBack();
   }
-  function onSubmit(expenseData) {
+  async function onSubmit(expenseData) {
     if (itemId) {
-      expensesContext.updateExpense(itemId, {
-        expenseData
-      });
+      const dataResponse = await updateExpense(itemId, { expenseData });
+      expensesContext.updateExpense(itemId, expenseData);
     } else {
-      storeExpense(expenseData)
-      expensesContext.addExpense(expenseData);
+      const id = await storeExpense(expenseData);
+      expensesContext.addExpense({ ...expenseData, id });
     }
     navigation.goBack();
   }
