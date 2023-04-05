@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { useContext } from "react";
 
 import { ExpensesContext } from "../store/expenses-context";
+import {storeExpense} from '../utils/http';
 
 import { Colors } from "../constants/styles";
 
@@ -28,11 +29,10 @@ function ManageExpencies({ route, navigation }) {
   function onSubmit(expenseData) {
     if (itemId) {
       expensesContext.updateExpense(itemId, {
-        description: "Test!!!",
-        amount: 99.99,
-        date: new Date("2023-03-30"),
+        expenseData
       });
     } else {
+      storeExpense(expenseData)
       expensesContext.addExpense(expenseData);
     }
     navigation.goBack();

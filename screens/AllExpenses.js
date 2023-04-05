@@ -10,7 +10,7 @@ function AllExpencies() {
     <View style={styles.rootContainer}>
       <ExpensesOutput
         expenses={expensesContext.expenses}
-        expensesPeriod="Last 7 days"
+        expensesPeriod="Total"
         fallbackText="No any expenses yet..."
       />
     </View>
